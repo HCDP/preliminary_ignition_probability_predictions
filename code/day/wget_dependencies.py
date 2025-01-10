@@ -4,6 +4,7 @@ import subprocess
 import pytz
 import requests
 import rasterio
+import pandas as pd
 from datetime import datetime, timedelta
 from generate_api import generate_api_k1
 
@@ -24,7 +25,7 @@ else:
     targ_dt = today - timedelta(days = 1)
 
 
-for county in county_list[:2]:
+for county in county_list:
     #import statics (model training)
     #-- land cover
     lc_url = public_url + 'workflow_data/preliminary/ignition_prob/dependencies/' + 'PerCov2016model_'+county+'.tif'
@@ -44,6 +45,24 @@ for county in county_list[:2]:
 
     #import daily updated data
     #--ndvi
+    date_fmt = targ_dt.strftime('%Y-%m-%d')
+    finish_flag = 0
+    attempts = 0
+    print(f'Getting NDVI for {date_fmt}')
+    while (finish_flag < 1)&(attempts<10):
+        ndvi_url = f"https://api.hcdp.ikewai.org/raster?date={date_fmt}&extent={county}&datatype=ndvi_modis&period=day&returnEmptyNotFound=False"
+        ndvi_file = local_dep_dir + 'NDVI_'+county+'.tif'
+        try:
+            req = requests.get(ndvi_url,headers={'Authorization':f'Bearer {hcdp_api_token}'})
+            req.raise_for_status()
+            with open(ndvi_file,'wb') as f:
+                f.write(req.content)
+            finish_flag = 1
+            attempts += 1
+        except requests.exceptions.HTTPError as err:
+            print(f'NDVI for {date_fmt} not found. Fetching previous day.')
+            dt = pd.to_datetime(date_fmt) - pd.Timedelta(days=1)
+            date_fmt = dt.strftime('%Y-%m-%d')
 
     #--precip (Preciptation.tif)
     #Reset loop flag and date
@@ -109,12 +128,12 @@ for county in county_list[:2]:
             date_fmt = dt.strftime('%Y-%m-%d')
             
     #create api using module version of jared's code
-    print("Compute API")
-    api = generate_api_k1(targ_dt,county)
-    with rasterio.open(local_dep_dir + 'ref_'+county+'.tif','r') as raster:
-        profile = raster.profile
-    
-    api_file = local_dep_dir + 'API_'+county+'.tif'
-    with rasterio.open(api_file,'w',**profile) as dst:
-        dst.write(api,1)
+    #print("Compute API")
+    #api = generate_api_k1(targ_dt,county)
+    #with rasterio.open(local_dep_dir + 'ref_'+county+'.tif','r') as raster:
+    #    profile = raster.profile
+    #
+    #api_file = local_dep_dir + 'API_'+county+'.tif'
+    #with rasterio.open(api_file,'w',**profile) as dst:
+    #    dst.write(api,1)
 

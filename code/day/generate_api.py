@@ -20,6 +20,7 @@ def generate_api_k1(agg_date,extent,n_agg=180):
     while n_agg > 0:
         #date = date - timedelta(days = 1) #commenting out position so that loop starts on agg_date
         date_s = date.strftime("%Y-%m-%d")
+        print(f"Adding {date_s} to API")
         #URL for API raster request
         raster_url = f"https://api.hcdp.ikewai.org/raster?date={date_s}&extent={extent}&datatype=rainfall&production=new&period=day"
         #prepare request
