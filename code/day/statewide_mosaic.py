@@ -1,5 +1,4 @@
 import os
-import sys
 import subprocess
 
 MASTER_DIR = os.environ.get("PROJECT_ROOT")

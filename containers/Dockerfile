@@ -1,6 +1,6 @@
 #SET UP FROM PRODUCTION BASE IMAGE
 FROM ghcr.io/hcdp/task-base:latest
-LABEL org.opencontainers.image.source="https://github.com/hcdp/preliminary_ignition_prob"
+LABEL org.opencontainers.image.source="https://github.com/hcdp/preliminary_ignition_probability"
 LABEL org.opencontainers.image.description="Base Image for preliminary ignition probability workflows."
 
 ## PACKAGE/LIBRARY INSTALLATIONS ##
@@ -31,4 +31,12 @@ RUN python3 -m pip install tiffile
 RUN python3 -m pip install python-dotenv
 RUN python3 -m pip install pathlib
 
-#JARED - ADD UPLOADER SETTINGS AS NEEDED
+RUN mkdir -p /workspace/code
+RUN mkdir -p /workspace/dependencies
+RUN mkdir -p /workspace/envs
+RUN mkdir -p /sync
+
+RUN wget https://raw.githubusercontent.com/ikewai/data-uploader/main/upload.py -O /sync/upload.py
+
+ADD /tools /sync
+ADD /envs/prod.env /workspace/envs

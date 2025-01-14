@@ -3,10 +3,8 @@ import sys
 import subprocess
 import pytz
 import requests
-import rasterio
 import pandas as pd
 from datetime import datetime, timedelta
-from generate_api import generate_api_k1
 
 #paste into env 'https://ikeauth.its.hawaii.edu/files/v2/download/public/system/ikewai-annotated-data/HCDP/'
 public_url = os.environ.get('IKEWAI_BASE')
@@ -126,14 +124,3 @@ for county in county_list:
             print(f'RH for {date_fmt} not found. Fetching previous day.')
             dt = pd.to_datetime(date_fmt) - pd.Timedelta(days=1)
             date_fmt = dt.strftime('%Y-%m-%d')
-            
-    #create api using module version of jared's code
-    #print("Compute API")
-    #api = generate_api_k1(targ_dt,county)
-    #with rasterio.open(local_dep_dir + 'ref_'+county+'.tif','r') as raster:
-    #    profile = raster.profile
-    #
-    #api_file = local_dep_dir + 'API_'+county+'.tif'
-    #with rasterio.open(api_file,'w',**profile) as dst:
-    #    dst.write(api,1)
-

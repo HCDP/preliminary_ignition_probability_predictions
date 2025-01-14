@@ -1,19 +1,15 @@
 import pandas as pd
 import numpy as np
-import yaml
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import log_loss, roc_auc_score, confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 import rasterio as rio
-from matplotlib import cm
 from matplotlib.colors import ListedColormap
 import os
 import sys
 import pytz
-import time
 from datetime import datetime,timedelta
-import glob
 
 def initialize_directories(county):
     master_dir = os.environ.get('PROJECT_ROOT')
