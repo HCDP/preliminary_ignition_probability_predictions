@@ -13,7 +13,7 @@ from datetime import datetime,timedelta
 
 def initialize_directories(county):
     master_dir = os.environ.get('PROJECT_ROOT')
-    dep_dir = master_dir + "code/day/dependencies/"
+    dep_dir = os.environ.get('DEPENDENCY_DIR')
     init_data_path = dep_dir + "firedata_"+county.lower()+".csv"
     init_geo_ref = dep_dir + "ref_"+county.lower()+".tif"
     init_rh_path = dep_dir + "RH_"+county.lower()+".tif"
