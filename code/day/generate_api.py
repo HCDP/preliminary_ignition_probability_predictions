@@ -48,8 +48,6 @@ def aggregate_map(date, extent, repeat_times, agg_map, n_agg):
             raise e
     return (found, n_agg, agg_map)
 
-#reset repeat to 1
-# repeat_times = 1
 
 def generate_api_k1(agg_date, extent, n_agg = 180):
     #Generates the [n_agg] sum of rainfall (default 180 days)
@@ -59,8 +57,10 @@ def generate_api_k1(agg_date, extent, n_agg = 180):
     date = agg_date.replace()
     while n_agg > 0:
         found, n_agg, agg_map = handle_retry(aggregate_map, (date, extent, repeat_times, agg_map, n_agg))
+        #reset repeat to 1
         if(found):
             repeat_times = 1
+        #repeat next map one more time
         else:
             repeat_times += 1
         date = date - timedelta(days = 1)
