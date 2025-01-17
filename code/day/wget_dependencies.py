@@ -37,7 +37,7 @@ def get_raster(date, county, dataset, outf):
             f.write(req.content)
         found = True
     except requests.exceptions.HTTPError as e:
-        if e.code != 404:
+        if e.response.status_code != 404:
             raise e
     return found
 
