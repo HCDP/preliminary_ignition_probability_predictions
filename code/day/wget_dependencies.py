@@ -29,7 +29,7 @@ def dataset2params(dataset):
 def get_raster(date, county, dataset, outf):
     date_s = date.strftime('%Y-%m-%d')
     print(date_s)
-    url = f"https://api.hcdp.ikewai.org/raster?date={date_s}&extent={county}&{dataset2params(dataset)}&returnEmptyNotFound=False"
+    url = f"https://api.hcdp.ikewai.org/raster?period=day&date={date_s}&extent={county}&{dataset2params(dataset)}&returnEmptyNotFound=False"
     print(url)
     found = False
     try:
