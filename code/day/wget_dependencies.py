@@ -28,10 +28,12 @@ def dataset2params(dataset):
 
 def get_raster(date, county, dataset, outf):
     date_s = date.strftime('%Y-%m-%d')
-    ndvi_url = f"https://api.hcdp.ikewai.org/raster?date={date_s}&extent={county}&{dataset2params(dataset)}&returnEmptyNotFound=False"
+    print(date_s)
+    url = f"https://api.hcdp.ikewai.org/raster?date={date_s}&extent={county}&{dataset2params(dataset)}&returnEmptyNotFound=False"
+    print(url)
     found = False
     try:
-        req = requests.get(ndvi_url,headers={'Authorization':f'Bearer {hcdp_api_token}'}, timeout = 5)
+        req = requests.get(url, headers = {'Authorization': f'Bearer {hcdp_api_token}'}, timeout = 5)
         req.raise_for_status()
         with open(outf, 'wb') as f:
             f.write(req.content)
@@ -53,7 +55,7 @@ def get_last_raster(date, county, dataset, outf):
             break
         date -= timedelta(days = 1)
     if(not found):
-        raise Exception(f"No data for {dataset} found within {MAX_DAYS} of {init_date}")
+        raise Exception(f"No data for {dataset} found within {MAX_DAYS} days of {init_date}")
     return date
     
 
