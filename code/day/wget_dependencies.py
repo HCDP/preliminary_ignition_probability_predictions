@@ -43,23 +43,16 @@ def get_raster(date, county, dataset, outf):
             raise e
     return found
 
-#do any of the other processes need to know what the dates of these files are??
+#reset date for each dataset
 def get_last_raster(date, county, dataset, outf):
-    #should this only go back 10 days max? Is it possible for NDVI to be more out of date?
-    init_date = date.strftime('%Y-%m-%d')
-    MAX_DAYS = 10
-    found = False
-    for i in range(0, MAX_DAYS):
+    while True:
         found = handle_retry(get_raster, (date, county, dataset, outf))
         if(found):
             break
         date -= timedelta(days = 1)
-    if(not found):
-        raise Exception(f"No data for {dataset} found within {MAX_DAYS} days of {init_date}")
-    return date
     
 
 for county in county_list:
     for dataset, fname_prefix in datasets:
         outf = join(local_dep_dir, f"{fname_prefix}_{county}.tif")
-        targ_dt = get_last_raster(targ_dt, county, dataset, outf)
+        get_last_raster(targ_dt, county, dataset, outf)
