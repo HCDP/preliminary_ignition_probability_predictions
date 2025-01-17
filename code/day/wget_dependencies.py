@@ -24,7 +24,7 @@ else:
     targ_dt = today - timedelta(days = 1)
 
 def dataset2params(dataset):
-    "&".join("=".join(item) for item in dataset.items())
+    return "&".join("=".join(item) for item in dataset.items())
 
 def get_raster(date, county, dataset, outf):
     date_s = date.strftime('%Y-%m-%d')
