@@ -14,10 +14,11 @@ from datetime import datetime,timedelta
 def initialize_directories(county):
     master_dir = os.environ.get('PROJECT_ROOT')
     dep_dir = os.environ.get('DEPENDENCY_DIR')
-    init_data_path = dep_dir + "firedata_"+county.lower()+".csv"
+    init_data_path = dep_dir + "FireData-2002-2019_"+county.lower()+".csv"
     init_geo_ref = dep_dir + "ref_"+county.lower()+".tif"
+    init_lc_path = dep_dir + "PerCov2016model_"+county.lower()+".tif"
+    
     init_rh_path = dep_dir + "RH_"+county.lower()+".tif"
-    init_lc_path = dep_dir + "land_cover_"+county.lower()+".tif"
     init_tmax_path = dep_dir + "Tmax_"+county.lower()+".tif"
     init_ndvi_path = dep_dir + "NDVI_"+county.lower()+".tif"
     init_pre_path = dep_dir + "Preciptation_"+county.lower()+".tif"
