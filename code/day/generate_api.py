@@ -66,8 +66,6 @@ def generate_api_k1(agg_date, extent, n_agg = 180):
             repeat_times += 1
         date = date - timedelta(days = 1)
     return agg_map
-    
-#determine the aggregation date
 
 if __name__ == "__main__":
     agg_date = None
