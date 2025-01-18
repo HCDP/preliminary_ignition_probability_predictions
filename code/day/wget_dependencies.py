@@ -28,9 +28,7 @@ def dataset2params(dataset):
 
 def get_raster(date, county, dataset, outf):
     date_s = date.strftime('%Y-%m-%d')
-    print(date_s)
     url = f"https://api.hcdp.ikewai.org/raster?period=day&date={date_s}&extent={county}&{dataset2params(dataset)}&returnEmptyNotFound=False"
-    print(url)
     found = False
     try:
         req = requests.get(url, headers = {'Authorization': f'Bearer {hcdp_api_token}'}, timeout = 5)
@@ -38,6 +36,7 @@ def get_raster(date, county, dataset, outf):
         with open(outf, 'wb') as f:
             f.write(req.content)
         found = True
+        print(f"Found raster for dataset {dataset} for date {date_s}")
     except requests.exceptions.HTTPError as e:
         if e.response.status_code != 404:
             raise e

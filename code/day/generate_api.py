@@ -46,6 +46,7 @@ def aggregate_map(date, extent, repeat_times, agg_map, n_agg):
         #file was not found, repeat the next file an additional time
         if e.code != 404:
             raise e
+        print(f"Rainfall not found for {date_s}...")
     return (found, n_agg, agg_map)
 
 
