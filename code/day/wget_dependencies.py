@@ -36,7 +36,7 @@ def get_raster(date, county, dataset, outf):
         with open(outf, 'wb') as f:
             f.write(req.content)
         found = True
-        print(f"Found raster for dataset {dataset} for date {date_s}")
+        print(f"Found raster for {county} dataset {dataset} for date {date_s}")
     except requests.exceptions.HTTPError as e:
         if e.response.status_code != 404:
             raise e
