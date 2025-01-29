@@ -6,3 +6,4 @@
 **/*.xml
 **/*.png
 **/__pycache__
+**/*.env
