@@ -11,6 +11,8 @@ import sys
 import pytz
 from datetime import datetime,timedelta
 
+NO_DATA_VAL = float(os.environ.get('NO_DATA_VAL'))
+
 def initialize_directories(county):
     master_dir = os.environ.get('PROJECT_ROOT')
     dep_dir = os.environ.get('DEPENDENCY_DIR')
@@ -228,10 +230,13 @@ class WildfireRiskModel:
                 geotiff_path = os.path.join(geotiff_dir, f'Probability_{county}.tif')
 
                 #src_path = f'{self.pre_path}//rainfall_new_day_oa_data_map_2019_12_01.tif'
+                prob_final[np.isnan(prob_final.values)] = NO_DATA_VAL
+                #src_path = self.tmax_path
                 src_path = self.ref_geotiff_path
                 with rio.open(src_path) as src:
                     ref_geotiff_meta = src.profile
                     ref_geotiff_meta.update(compress='lzw')
+                    ref_geotiff_meta.update(nodata=NO_DATA_VAL)
                     with rio.open(geotiff_path, 'w', **ref_geotiff_meta) as dst:
                         dst.write(prob_final.values.reshape(src.height, src.width), 1)
             else:
