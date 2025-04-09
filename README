@@ -1,4 +1,4 @@
-Repository for preliminary fire ignition probability map generation pipeline.
+Repository for preliminary fire ignition probability prediction map generation pipeline.
 
 Add daily workflow code to the /code/day folder
 Add daily container generation and runtime files to the /containers/day folder
